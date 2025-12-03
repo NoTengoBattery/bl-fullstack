@@ -1,4 +1,6 @@
-#require "oj"
+# frozen_string_literal: true
 
-#Oj.optimize_rails
-#Oj::Rails.optimize
+require "oj"
+
+Oj.optimize_rails
+Oj::Rails.optimize

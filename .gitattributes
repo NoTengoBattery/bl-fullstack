@@ -2,7 +2,6 @@
 
 # Mark the database schema as having been generated.
 db/schema.rb linguist-generated
-db/secondary_schema.rb linguist-generated
 
 # Mark the dependency lock files as having been generated.
 yarn.lock linguist-generated

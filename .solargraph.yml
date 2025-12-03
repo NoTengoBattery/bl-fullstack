@@ -6,17 +6,19 @@ exclude:
   - "log/**/*"
   - "node_modules/**/*"
   - "public/**/*"
+  - "storage/**/*"
   - "tmp/**/*"
   - "vendor/bundle/**/*"
-  - "storage/**/*"
 include:
   - "**/*.rb"
 max_files: 5000
 plugins:
   - solargraph-rails
+  - solargraph-rubocop
   - solargraph-standardrb
 reporters:
-  - rubocop
   - require_not_found
+  - rubocop
+  - standardrb
   - typecheck
   - update_errors

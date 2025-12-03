@@ -13,9 +13,10 @@ require "oj"
 require "active_support/core_ext/object/blank"
 
 puts_env = -> { ENV.sort.to_h.each { |variable, value| puts " #{variable}=\"#{value}\"" } }
-renv, profile = ENV.fetch("RAILS_ENV"), File.expand_path("~/.zprofile")
+renv = ENV.fetch("RAILS_ENV")
+profile = File.expand_path("~/.zprofile")
 export_var = ->(var, val = nil) { "export #{var}=\"#{val.presence || ENV.fetch(var)}\"\n" }
-build_command = ->(*array) { array.map { |c| '"' + c + '"' }.join(" ") }
+build_command = ->(*array) { array.map { |c| "\"#{c}\"" }.join(" ") }
 
 puts "Running entrypoint..."
 puts "Environment: #{renv}"
@@ -24,10 +25,11 @@ ENV.delete("RAILS_MASTER_KEY") if ENV["RAILS_MASTER_KEY"].blank?
 
 unless [nil, "development", "test"].include?(renv)
   json_envs = Oj.load(
-    '{}' # `aws secretsmanager ...`
+    "{}" # `aws secretsmanager ...`
   ).sort.to_h
   json_envs.each do |variable, value|
     next if variable.blank? || value.blank?
+
     File.write(".env.local", "#{variable}=#{value}\n", mode: "a+")
   end
   ENV["RUBY_USE_YJIT"] = "true"
@@ -55,8 +57,9 @@ puts "Current environment variables:"
 puts_env.call
 
 command_real = build_command.call("bundle", "exec", *ARGV)
-command = command_real.gsub('"', '\"') + "; exit \\$?;"
-command, setup = build_command.call("zsh", "-cel", command), build_command.call("zsh", "-cel", "bin/setup")
+command = "#{command_real.gsub('"', '\"')}; exit \\$?;"
+command = build_command.call("zsh", "-cel", command)
+setup = build_command.call("zsh", "-cel", "bin/setup")
 puts "Executing setup:\n\t=> #{setup}"
 system!({"DROP_TO_SHELL" => "true"}, setup)
 puts "Executing command:\n\t=> #{command_real}"

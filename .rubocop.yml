@@ -2,38 +2,35 @@
 inherit_from:
   - .rubocop_todo.yml
 inherit_gem:
-  standard: config/base.yml
-  rubocop-rails: config/default.yml
   rubocop-rake: config/default.yml
   rubocop-rspec: config/default.yml
+  standard-custom: config/base.yml
+  standard-performance: config/base.yml
+  standard: config/base.yml
 inherit_mode:
   merge:
     - Exclude
-require:
+plugins:
   - rubocop-factory_bot
-  - rubocop-i18n
   - rubocop-performance
-  - rubocop-rails
   - rubocop-rake
   - rubocop-rspec
   - rubocop-rspec_rails
   - rubocop-thread_safety
-  - standard/cop/block_single_line_braces
+require:
+  - standard
+  - standard-custom
+  - standard-performance
 AllCops:
   NewCops: enable
-  TargetRailsVersion: <%= `rails -v`.split.last %>
+#  TargetRailsVersion: <%= `rails -v`.split.last %>
   TargetRubyVersion: <%= File.read(".ruby-version").strip %>
-I18n/GetText:
-  Enabled: false
-I18n/RailsI18n:
-  Enabled: false
 Layout/LineLength:
   Enabled: true
   Exclude:
     - bin/bundle
     - db/schema.rb
   Max: 120
-  AllowedPatterns: ['^\s*#']
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: true
   Exclude:
