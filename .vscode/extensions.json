@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "castwide.solargraph",
+        "docker.docker",
+        "foxundermoon.shell-format",
+        "github.copilot",
+        "karunamurti.haml",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml"
+    ]
+}

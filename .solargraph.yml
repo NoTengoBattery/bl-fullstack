@@ -1,0 +1,22 @@
+---
+exclude:
+  - ".bundle/**/*"
+  - "coverage/**/*"
+  - "db/*.sqlite3"
+  - "log/**/*"
+  - "node_modules/**/*"
+  - "public/**/*"
+  - "tmp/**/*"
+  - "vendor/bundle/**/*"
+  - "storage/**/*"
+include:
+  - "**/*.rb"
+max_files: 5000
+plugins:
+  - solargraph-rails
+  - solargraph-standardrb
+reporters:
+  - rubocop
+  - require_not_found
+  - typecheck
+  - update_errors

@@ -1,0 +1,134 @@
+---
+services:
+  database:
+    image: postgres:18
+    container_name: com.ballastlane.database
+    environment:
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      retries: 5
+    networks:
+      - com.ballastlane.project
+    volumes:
+      - com.ballastlane.database:/var/lib/postgresql:rw
+
+  redis-kv:
+    &redis
+    image: redis:8
+    container_name: com.ballastlane.redis-kv
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      retries: 5
+    networks:
+      - com.ballastlane.project
+    volumes:
+      - com.ballastlane.redis-kv:/var/lib/redis:rw
+      - ./config/redis-kv.conf:/usr/local/etc/redis/redis.conf:ro
+
+  redis-cache:
+    <<: *redis
+    container_name: com.ballastlane.redis-cache
+    volumes:
+      - com.ballastlane.redis-cache:/var/lib/redis:rw
+      - ./config/redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
+
+  project-base:
+    &project-base
+    container_name: com.ballastlane.project.base
+    build:
+      context: .
+      args:
+        &project-build-args
+        GROUP_ID: ${GID:-1000}
+        RAILS_ENV: ${RAILS_ENV:-development}
+        USER_ID: ${UID:-1000}
+    command: [ "bin/rails", "server", "-b", "0.0.0.0" ]
+    depends_on:
+      database: { condition: service_healthy }
+      redis-cache: { condition: service_healthy }
+      redis-kv: { condition: service_healthy }
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    environment:
+      &project-environment
+      CFLAGS: "-O3 -pipe"
+      DATABASE_URL_READONLY: postgres://postgres:password@database/project
+      DATABASE_URL: postgres://postgres:password@database/project
+      PIDFILE: /tmp/server.pid
+      PORT: ${PORT:-3000}
+      RAILS_ENV: ${RAILS_ENV:-development}
+      REDIS_CACHE_URL: redis://redis-cache/0
+      REDIS_KV_URL: redis://redis-kv/0
+    env_file:
+      - .env
+      - .env.local
+      - .env.${RAILS_ENV:-development}
+      - .env.${RAILS_ENV:-development}.local
+    networks:
+      - com.ballastlane.project
+    tmpfs:
+      - /tmp:mode=01777
+    user: "${UID:-1000}:${GID:-1000}"
+    userns_mode: host
+    volumes:
+      - .:/project:rw
+
+  project-rails-server:
+    <<: *project-base
+    container_name: com.ballastlane.project.server
+    ports:
+      - ${PORT:-3000}:${PORT:-3000}
+
+  project-worker:
+    <<: *project-base
+    container_name: com.ballastlane.project.worker
+    command: [ "bin/sidekiq" ]
+
+  test-base:
+    &test-base
+    <<: *project-base
+    container_name: com.ballastlane.project.test.base
+    build:
+      context: .
+      args:
+        <<: *project-build-args
+        RAILS_ENV: ${RAILS_ENV:-test}
+    command: [ "scripts/specs.zsh" ]
+    environment:
+      &test-environment
+      <<: *project-environment
+      DATABASE_URL_READONLY: postgres://postgres:password@database/test
+      DATABASE_URL: postgres://postgres:password@database/test
+      RAILS_ENV: ${RAILS_ENV:-test}
+    env_file:
+      - .env
+      - .env.local
+      - .env.${RAILS_ENV:-test}
+      - .env.${RAILS_ENV:-test}.local
+
+  test:
+    <<: *test-base
+    container_name: com.ballastlane.project.test
+    environment:
+      <<: *test-environment
+      CI: "true"
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+
+  test-local:
+    <<: *test-base
+    container_name: com.ballastlane.project.test.local
+
+networks:
+  com.ballastlane.project:
+    enable_ipv6: false
+
+
+volumes:
+  com.ballastlane.database:
+  com.ballastlane.redis-cache:
+  com.ballastlane.redis-kv:

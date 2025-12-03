@@ -1,0 +1,16 @@
+{
+    "git.alwaysSignOff": true,
+    "git.branchProtection": [
+        "main"
+    ],
+    "git.enableCommitSigning": true,
+    "git.fetchOnPull": true,
+    "git.mergeEditor": true,
+    "github.copilot.enable": {
+        "markdown": true
+    },
+    "solargraph.autoformat": true,
+    "solargraph.diagnostics": true,
+    "solargraph.formatting": true,
+    "solargraph.useBundler": true
+}

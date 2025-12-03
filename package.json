@@ -1,0 +1,16 @@
+{
+    "dependencies": {},
+    "devDependencies": {
+        "husky": "^9.1"
+    },
+    "engines": {
+        "node": "24.x"
+    },
+    "name": "ballast-lane",
+    "packageManager": "yarn@1.22.22",
+    "private": true,
+    "scripts": {
+        "prepare": "husky install"
+    },
+    "version": "1.0.0"
+}
