@@ -76,7 +76,7 @@ services:
     user: "${UID:-1000}:${GID:-1000}"
     userns_mode: host
     volumes:
-      - .:/project:rw
+      - .:/project:z
 
   project-rails-server:
     <<: *project-base

@@ -10,7 +10,7 @@
     "packageManager": "yarn@1.22.22",
     "private": true,
     "scripts": {
-        "prepare": "husky install"
+        "prepare": "husky"
     },
     "version": "1.0.0"
 }

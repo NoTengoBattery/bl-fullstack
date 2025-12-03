@@ -1,4 +1,4 @@
-require "oj"
+#require "oj"
 
-Oj.optimize_rails
-Oj::Rails.optimize
+#Oj.optimize_rails
+#Oj::Rails.optimize
