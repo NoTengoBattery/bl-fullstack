@@ -89,8 +89,8 @@ services:
     container_name: com.ballastlane.project.worker
     command: [ "bin/sidekiq" ]
 
-  test-base:
-    &test-base
+  project-test-base:
+    &project-test-base
     <<: *project-base
     container_name: com.ballastlane.project.test.base
     build:
@@ -111,8 +111,8 @@ services:
       - .env.${RAILS_ENV:-test}
       - .env.${RAILS_ENV:-test}.local
 
-  test:
-    <<: *test-base
+  project-test:
+    <<: *project-test-base
     container_name: com.ballastlane.project.test
     environment:
       <<: *test-environment
@@ -120,7 +120,7 @@ services:
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
 
   test-local:
-    <<: *test-base
+    <<: *project-test-base
     container_name: com.ballastlane.project.test.local
 
 networks:

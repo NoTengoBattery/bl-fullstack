@@ -15,10 +15,8 @@ max_files: 5000
 plugins:
   - solargraph-rails
   - solargraph-rubocop
-  - solargraph-standardrb
 reporters:
   - require_not_found
   - rubocop
-  - standardrb
   - typecheck
   - update_errors

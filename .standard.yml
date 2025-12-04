@@ -1,8 +1,0 @@
-parallel: true          
-format: progress        
-
-plugins:                
-  - standard-rails
-
-extend_config:                
-  - .standard_ext.yml

@@ -3,9 +3,9 @@
         "castwide.solargraph",
         "docker.docker",
         "foxundermoon.shell-format",
-        "github.copilot",
-        "karunamurti.haml",
+        "GitHub.copilot-chat",
         "ms-azuretools.vscode-docker",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "Shopify.ruby-lsp"
     ]
 }

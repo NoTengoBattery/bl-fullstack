@@ -2,28 +2,29 @@
 inherit_from:
   - .rubocop_todo.yml
 inherit_gem:
+  rubocop-factory_bot: config/default.yml
+  rubocop-faker: config/default.yml
+  rubocop-performance: config/default.yml
+  rubocop-rails: config/default.yml
   rubocop-rake: config/default.yml
+  rubocop-rspec_rails: config/default.yml
   rubocop-rspec: config/default.yml
-  standard-custom: config/base.yml
-  standard-performance: config/base.yml
-  standard: config/base.yml
+  rubocop-thread_safety: config/default.yml
 inherit_mode:
   merge:
     - Exclude
 plugins:
   - rubocop-factory_bot
+  - rubocop-faker
   - rubocop-performance
+  - rubocop-rails
   - rubocop-rake
   - rubocop-rspec
   - rubocop-rspec_rails
   - rubocop-thread_safety
-require:
-  - standard
-  - standard-custom
-  - standard-performance
 AllCops:
   NewCops: enable
-#  TargetRailsVersion: <%= `rails -v`.split.last %>
+  TargetRailsVersion: <%= `rails -v`.split.last %>
   TargetRubyVersion: <%= File.read(".ruby-version").strip %>
 Layout/LineLength:
   Enabled: true
