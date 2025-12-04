@@ -5,6 +5,7 @@ exclude:
   - "db/*.sqlite3"
   - "log/**/*"
   - "node_modules/**/*"
+  - ".pnpm-store/**/*"
   - "public/**/*"
   - "storage/**/*"
   - "tmp/**/*"

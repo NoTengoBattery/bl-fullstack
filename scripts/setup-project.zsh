@@ -2,20 +2,20 @@
 set -xeuo pipefail
 
 # Ensure necessary files exist to avoid errors and mark the repository as safe
-touch Gemfile Gemfile.lock package.json yarn.lock
+touch Gemfile Gemfile.lock package.json pnpm-lock.yaml
 git config --global --add safe.directory $(pwd)
 
-# Set up environment variables for Bundler and Yarn in rootless mode
+# Set up environment variables for Bundler and pnpm in rootless mode
 export BUNDLE_PATH=$HOME/.bundle
-export YARN_BIN=$HOME/node_modules/.bin
+export NODE_MODULES_BIN=$HOME/node_modules/.bin
 echo export BUNDLE_PATH=\"$BUNDLE_PATH\" >>$HOME/.zshenv
 echo export BUNDLE_BIN=\"$BUNDLE_PATH/bin\" >>$HOME/.zshenv
-echo export YARN_BIN=\"$YARN_BIN\" >>$HOME/.zshenv
+echo export NODE_MODULES_BIN=\"$NODE_MODULES_BIN\" >>$HOME/.zshenv
 source $HOME/.zshenv
-echo export PATH=\"\$PATH:\$BUNDLE_BIN:\$YARN_BIN\" >$HOME/.zprofile
+echo export PATH=\"\$PATH:\$BUNDLE_BIN:\$NODE_MODULES_BIN\" >$HOME/.zprofile
 source $HOME/.zprofile
 
-# Environment-specific commands and packages (Yarn)
+# Environment-specific commands and packages (pnpm)
 case $RAILS_ENV in
 production | staging)
   :
@@ -28,7 +28,7 @@ test)
   ;;
 esac
 
-yarn install
+pnpm install
 
 # Install the Ruby dependencies with Bundler
 BUNDLE_DEPLOY="false"

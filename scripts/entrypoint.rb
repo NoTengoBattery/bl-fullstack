@@ -56,7 +56,7 @@ end
 puts 'Current environment variables:'
 puts_env.call
 
-command_real = build_command.call('bundle', 'exec', *ARGV)
+command_real = build_command.call('exec', 'bundle', 'exec', *ARGV)
 command = "#{command_real.gsub('"', '\"')}; exit \\$?;"
 command = build_command.call('zsh', '-cel', command)
 setup = build_command.call('zsh', '-cel', 'bin/setup')

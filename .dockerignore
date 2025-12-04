@@ -61,6 +61,7 @@ Ignore storage (uploaded files in development and any SQLite databases).
 Ignore assets (Node modules and compiled assets).
 
 /node_modules/
+/.pnpm-store/
 /app/assets/builds/*
 !/app/assets/builds/.keep
 /public/assets

@@ -1,7 +1,8 @@
 {
-    "dependencies": {},
     "devDependencies": {
-        "husky": "^9.1"
+        "husky": "^9.1",
+        "vite": "^5.4",
+        "vite-plugin-ruby": "^5.1"
     },
     "engines": {
         "node": "24.x"

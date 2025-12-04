@@ -44,6 +44,7 @@ gem 'oj', '~> 3.16'
 gem 'rails-healthcheck', '~> 1.4'
 gem 'redis', '~> 5.4'
 gem 'validate_url', '~> 1.0'
+gem 'vite_rails', '~> 3.0', '>= 3.0.19'
 gem 'zstd-ruby', '~> 2.0'
 
 ## Gems needed to generate the seeds
@@ -53,9 +54,8 @@ gem 'faker', '~> 3.5', require: false
 group :development do
   # Profiling, auditing, and performance tools
   gem 'bullet', '~> 8.1'
-  gem 'flamegraph', '~> 0.9'
   gem 'memory_profiler', '~> 1.1'
-  gem 'rack-mini-profiler', '~> 4.0', require: false
+  gem 'rack-mini-profiler', '~> 4.0'
   gem 'stackprof', '~> 0.2'
 
   # Use console on exceptions pages [https://github.com/rails/web-console]
@@ -82,7 +82,6 @@ end
 group :test do
   gem 'rspec-collection_matchers', '~> 1.2'
   gem 'shoulda-matchers', '~> 7.0'
-  gem 'spring-commands-rspec', '~> 1.0', require: false
   gem 'super_diff', '~> 0.15'
 end
 
@@ -101,6 +100,4 @@ group :development, :test do
 
   # Gems to improve development
   gem 'rspec-rails', '~> 8.0'
-  gem 'spring', '~> 4.4'
-  gem 'spring-watcher-listen', '~> 2.1'
 end

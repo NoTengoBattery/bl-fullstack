@@ -92,6 +92,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+.pnpm-store/
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -476,3 +477,7 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/node,ruby,yarn,linux,macos,rails,windows,rubymine,visualstudiocode
+
+# Vite Ruby
+/public/vite*
+

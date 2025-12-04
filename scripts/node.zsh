@@ -14,9 +14,9 @@ test)
   ;;
 esac
 
-# Update Node.js and Yarn to the latest versions
+# Update Node.js and pnpm to the latest versions
 npm install --global npm@latest
-npm install --global yarn@latest
+npm install --global pnpm@latest
 npm update --global
 
 # Clean up build context to reduce image size

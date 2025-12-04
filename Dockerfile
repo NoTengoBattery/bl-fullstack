@@ -50,7 +50,7 @@ RUN mkdir -p /project && chown -R $USER:$GROUP /project
 USER $USER:$GROUP
 WORKDIR /project
 COPY --chown=$USER:$GROUP scripts/entrypoint.rb scripts/setup-project.zsh scripts/
-COPY --chown=$USER:$GROUP Gemfile* package.json yarn.lock ./
+COPY --chown=$USER:$GROUP Gemfile* package.json pnpm-lock.yaml ./
 RUN zsh -cel scripts/setup-project.zsh
 USER root:root
 WORKDIR /tmp

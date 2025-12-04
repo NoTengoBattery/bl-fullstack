@@ -4,7 +4,7 @@
 db/schema.rb linguist-generated
 
 # Mark the dependency lock files as having been generated.
-yarn.lock linguist-generated
+pnpm-lock.yaml linguist-generated
 Gemfile.lock linguist-generated
 
 # Mark the other files as generated.
