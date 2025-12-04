@@ -3,19 +3,21 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
     <title>Vite ⚡️ Rails</title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= inertia_ssr_head %>
     <%= vite_client_tag %>
     <%= vite_react_refresh_tag %>
-    <%= vite_stylesheet_tag 'styles.scss' %>
-    <%= vite_typescript_tag 'application', 'data-turbo-track': 'reload', media: 'all' %>
+    <%= vite_stylesheet_tag 'application.css' %>
+    <%= vite_typescript_tag 'inertia.tsx', 'data-turbo-track': 'reload', media: 'all' %>
   </head>
 
   <body>
     <%= yield %>
-    <%= vite_legacy_typescript_tag 'application' %>
   </body>
 </html>

@@ -25,5 +25,6 @@ Rails.application.configure do
   end
 
   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-  config.content_security_policy_nonce_directives = %w[script-src style-src]
+  # In development, omit style-src from nonce directives so unsafe-inline works for Inertia/Vite HMR styles
+  config.content_security_policy_nonce_directives = Rails.env.development? ? %w[script-src] : %w[script-src style-src]
 end
