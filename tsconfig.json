@@ -1,36 +1,11 @@
 {
-    "compilerOptions": {
-        "allowJs": true,
-        "esModuleInterop": true,
-        "isolatedModules": true,
-        "jsx": "react-jsx",
-        "module": "ESNext",
-        "moduleResolution": "bundler",
-        "noEmit": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "strict": false,
-        "target": "ES2022"
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
     },
-    "include": [
-        "app/frontend/**/*",
-        "config/**/*"
-    ],
-    "exclude": [
-        ".bundle",
-        ".eslintcache",
-        ".pnpm-store",
-        "coverage",
-        "db/*.sqlite3",
-        "dist",
-        "log",
-        "node_modules",
-        "public",
-        "public/packs",
-        "storage",
-        "tmp",
-        "vendor/bundle",
-        "vite-dev",
-        "vite-test"
-    ]
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

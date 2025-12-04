@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>Vite ⚡️ Rails</title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= vite_client_tag %>
+    <%= vite_react_refresh_tag %>
+    <%= vite_stylesheet_tag 'styles.scss' %>
+    <%= vite_typescript_tag 'application', 'data-turbo-track': 'reload', media: 'all' %>
+  </head>
+
+  <body>
+    <%= yield %>
+    <%= vite_legacy_typescript_tag 'application' %>
+  </body>
+</html>

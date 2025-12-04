@@ -44,8 +44,11 @@ gem 'oj', '~> 3.16'
 gem 'rails-healthcheck', '~> 1.4'
 gem 'redis', '~> 5.4'
 gem 'validate_url', '~> 1.0'
-gem 'vite_rails', '~> 3.0', '>= 3.0.19'
 gem 'zstd-ruby', '~> 2.0'
+
+# Gems and utilities for frontend
+gem 'inertia_rails', '~> 3.14'
+gem 'vite_rails', '~> 3.0', '>= 3.0.19'
 
 ## Gems needed to generate the seeds
 gem 'factory_bot_rails', '~> 6.5', require: false
