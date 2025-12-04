@@ -49,3 +49,28 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
+
+  lint_js:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js (24.x) + pnpm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.x"
+          cache: "pnpm"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Install JS dependencies (pnpm)
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Prettier check
+        run: pnpm run format:check
+
+      - name: Run ESLint on frontend
+        run: pnpm run lint:js

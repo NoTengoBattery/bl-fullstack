@@ -1,15 +1,20 @@
 ---
 exclude:
   - ".bundle/**/*"
+  - ".eslintcache"
+  - ".pnpm-store/**/*"
   - "coverage/**/*"
   - "db/*.sqlite3"
+  - "dist/**/*"
   - "log/**/*"
   - "node_modules/**/*"
-  - ".pnpm-store/**/*"
   - "public/**/*"
+  - "public/packs/**/*"
   - "storage/**/*"
   - "tmp/**/*"
   - "vendor/bundle/**/*"
+  - "vite-dev/**/*"
+  - "vite-test/**/*"
 include:
   - "**/*.rb"
 max_files: 5000

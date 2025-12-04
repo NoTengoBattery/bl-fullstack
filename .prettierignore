@@ -1,0 +1,15 @@
+.bundle/
+.eslintcache
+.pnpm-store/
+coverage/
+db/*.sqlite3
+dist/
+log/
+node_modules/
+public/
+public/packs/
+storage/
+tmp/
+vendor/bundle/
+vite-dev/
+vite-test/

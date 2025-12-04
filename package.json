@@ -1,8 +1,19 @@
 {
     "devDependencies": {
+        "@eslint/eslintrc": "^3.3",
+        "@eslint/js": "^9.39",
+        "@typescript-eslint/eslint-plugin": "^8.48",
+        "@typescript-eslint/parser": "^8.48",
+        "eslint-config-prettier": "^10.1",
+        "eslint-plugin-prettier": "^5.5",
+        "eslint-plugin-react-hooks": "^7.0",
+        "eslint-plugin-react": "^7.37",
+        "eslint": "^9.39",
         "husky": "^9.1",
-        "vite": "^5.4",
-        "vite-plugin-ruby": "^5.1"
+        "prettier": "^3.7",
+        "typescript": "^5.9",
+        "vite-plugin-ruby": "^5.1",
+        "vite": "^5.4"
     },
     "engines": {
         "node": "24.x"
@@ -10,6 +21,10 @@
     "name": "ballast-lane",
     "private": true,
     "scripts": {
+        "format:check": "prettier --check 'app/frontend/**/*.{js,ts,jsx,tsx,css,scss,json,md,html}'",
+        "format": "prettier --write 'app/frontend/**/*.{js,ts,jsx,tsx,css,scss,json,md,html}'",
+        "lint:js:fix": "eslint 'app/frontend/**/*.{js,ts,jsx,tsx}' --fix",
+        "lint:js": "eslint 'app/frontend/**/*.{js,ts,jsx,tsx}' --max-warnings=0",
         "prepare": "husky"
     },
     "version": "1.0.0"

@@ -26,6 +26,22 @@ AllCops:
   NewCops: enable
   TargetRailsVersion: <%= `rails -v`.split.last %>
   TargetRubyVersion: <%= File.read(".ruby-version").strip %>
+  Exclude:
+    - ".bundle/**/*"
+    - ".eslintcache"
+    - ".pnpm-store/**/*"
+    - "coverage/**/*"
+    - "db/*.sqlite3"
+    - "dist/**/*"
+    - "log/**/*"
+    - "node_modules/**/*"
+    - "public/**/*"
+    - "public/packs/**/*"
+    - "storage/**/*"
+    - "tmp/**/*"
+    - "vendor/bundle/**/*"
+    - "vite-dev/**/*"
+    - "vite-test/**/*"
 Layout/LineLength:
   Enabled: true
   Exclude:
