@@ -52,3 +52,18 @@ Layout/SpaceInsideHashLiteralBraces:
   Enabled: true
   Exclude:
     - db/schema.rb
+Lint/RequireParentheses:
+  Enabled: true
+Style/DefWithParentheses:
+  Enabled: true
+Style/MethodDefParentheses:
+  Enabled: true
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+Style/StabbyLambdaParentheses:
+  Enabled: true
+Style/SuperWithArgsParentheses:
+  Enabled: true
+Style/TernaryParentheses:
+  Enabled: true
+  EnforcedStyle: require_parentheses_when_complex

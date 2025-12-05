@@ -12,7 +12,7 @@ require_relative '../config/boot'
 require 'oj'
 require 'active_support/core_ext/object/blank'
 
-puts_env = -> { ENV.sort.to_h.each { |variable, value| puts " #{variable}=\"#{value}\"" } }
+puts_env = -> { ENV.sort.to_h.each { |variable, value| puts(" #{variable}=\"#{value}\"") } }
 renv = ENV.fetch('RAILS_ENV')
 profile = File.expand_path('~/.zprofile')
 export_var = ->(var, val = nil) { "export #{var}=\"#{val.presence || ENV.fetch(var)}\"\n" }

@@ -35,7 +35,7 @@ require 'super_diff/rspec'
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
-  abort e.to_s.strip
+  abort(e.to_s.strip)
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -74,13 +74,13 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
 
   # Configure FactoryBot
-  config.include FactoryBot::Syntax::Methods
+  config.include(FactoryBot::Syntax::Methods)
 
   # Configure Shoulda Matchers
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
-      with.test_framework :rspec
-      with.library :rails
+      with.test_framework(:rspec)
+      with.library(:rails)
     end
   end
 end

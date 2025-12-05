@@ -27,15 +27,31 @@
 # Any libraries that use a connection pool or another resource pool should
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
-threads_count = ENV.fetch('RAILS_MAX_THREADS', 3)
-threads threads_count, threads_count
+max_threads_count = BallastLaneProjectConfigHelper.max_threads
+min_threads_count = ENV.fetch('RAILS_MIN_THREADS', 1)
+threads min_threads_count, max_threads_count
 
-# Specifies the `port` and host that Puma will listen on to receive requests.
-port ENV.fetch('PORT', 3000), ENV.fetch('HOST', '0.0.0.0')
+worker_check_interval BallastLaneProjectConfigHelper.worker_check_interval
+worker_timeout BallastLaneProjectConfigHelper.worker_timeout
+
+# Specifies that the worker count should equal the number of processors in production.
+if ENV['RAILS_ENV'].in?(%w[production staging])
+  worker_count = BallastLaneProjectConfigHelper.worker_count
+  workers worker_count if worker_count > 1
+end
+
+# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
+port ENV.fetch('PORT', 3000)
+
+# Run GC before forking to avoid copy-on-write issues.
+before_fork { GC.start }
+
+# Specify the PID file. Defaults to tmp/pids/server.pid in development.
+# In other environments, only set the PID file if requested.
+pidfile ENV['PIDFILE'] if ENV['PIDFILE'].present?
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
 
-# Specify the PID file. Defaults to tmp/pids/server.pid in development.
-# In other environments, only set the PID file if requested.
-pidfile ENV['PIDFILE'] if ENV['PIDFILE']
+# Use the `preload_app!` method when specifying a `workers` number.
+preload_app!
