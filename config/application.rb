@@ -21,6 +21,9 @@ require 'action_view/railtie'
 Bundler.require(*Rails.groups)
 
 module BallastLaneProject
+  # Provides configuration and initialization for the Ballastlane Rails application,
+  # ensuring that frameworks, middleware, and environment-specific settings are
+  # loaded and configured before the application boots.
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults(8.1)
@@ -40,5 +43,8 @@ module BallastLaneProject
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Use UUIDs for primary keys by default
+    config.generators { it.orm(:active_record, primary_key_type: :uuid) }
   end
 end

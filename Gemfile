@@ -12,7 +12,7 @@ gem 'pg', '~> 1.1'
 gem 'puma', '~> 7.1'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem 'bcrypt', '~> 3.1'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
@@ -33,6 +33,7 @@ gem 'image_processing', '~> 1.2'
 gem 'active_storage_validations', '~> 3.0'
 gem 'amazing_print', '~> 2.0'
 gem 'blake3-rb', '~> 1.5'
+gem 'discard', '~> 1.4'
 gem 'dotenv-rails', '~> 3.2'
 gem 'hashdiff', '~> 1.2'
 gem 'hiredis-client', '~> 0.26'
@@ -41,6 +42,8 @@ gem 'jsonb_accessor', '~> 1.4'
 gem 'jsonpath', '~> 1.1'
 gem 'lru_redux', '~> 1.1'
 gem 'oj', '~> 3.16'
+gem 'pg_search', '~> 2.3'
+gem 'pundit', '~> 2.5'
 gem 'rails-healthcheck', '~> 1.4'
 gem 'redis', '~> 5.4'
 gem 'validate_url', '~> 1.0'
@@ -56,7 +59,6 @@ gem 'faker', '~> 3.5', require: false
 
 group :development do
   # Profiling, auditing, and performance tools
-  gem 'bullet', '~> 8.1'
   gem 'memory_profiler', '~> 1.1'
   gem 'rack-mini-profiler', '~> 4.0'
   gem 'stackprof', '~> 0.2'
@@ -75,14 +77,12 @@ group :development do
   gem 'rubocop-rspec', '~> 3.8', require: false
   gem 'rubocop-rspec_rails', '~> 2.32', require: false
   gem 'rubocop-thread_safety', '~> 0.7', require: false
-  ## Solargraph
-  gem 'solargraph-rails', '~> 1.2', require: false
-  gem 'solargraph-rspec', '~> 0.5', require: false
   ## Ruby LSP
   gem 'ruby-lsp', '~> 0.26', require: false
 end
 
 group :test do
+  gem 'pundit-matchers', '~> 4.0'
   gem 'rspec-collection_matchers', '~> 1.2'
   gem 'shoulda-matchers', '~> 7.0'
   gem 'super_diff', '~> 0.15'
@@ -102,5 +102,6 @@ group :development, :test do
   gem 'binding_of_caller', '~> 1.0'
 
   # Gems to improve development
+  gem 'bullet', '~> 8.1'
   gem 'rspec-rails', '~> 8.0'
 end

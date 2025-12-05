@@ -14,9 +14,6 @@ test)
   ;;
 esac
 
-# Update RubyGems to the latest version
-gem update --system
-
 # Clean up build context to reduce image size
 rm -rf ./*(D)
 
