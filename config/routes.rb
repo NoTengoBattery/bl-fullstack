@@ -5,11 +5,23 @@ Rails.application.routes.draw do
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  # Authentication routes
+  get 'login', to: 'sessions#new', as: :login
+  post 'login', to: 'sessions#create'
+  delete 'logout', to: 'sessions#destroy', as: :logout
+
+  get 'register', to: 'registrations#new', as: :register
+  post 'register', to: 'registrations#create'
+
+  # Dashboard
+  get 'dashboard', to: 'dashboard#index', as: :dashboard
+
+  # Books
+  resources :books
+
+  # Borrowings
+  resources :borrowings, only: %i[index show create update]
 
   # Defines the root path route ("/")
-  # root "posts#index"
-  root 'home#index'
+  root 'books#index'
 end
