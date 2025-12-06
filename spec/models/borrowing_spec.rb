@@ -112,4 +112,95 @@ RSpec.describe(Borrowing) do
       expect(second_borrowing).to(be_valid)
     end
   end
+
+  describe 'book availability validation' do
+    let(:total_copies) { 1 }
+    let(:book) { create(:book, total_copies: total_copies) }
+    let(:first_user) { create(:user) }
+    let(:second_user) { create(:user) }
+    let(:borrowing) { build(:borrowing, book:, user: second_user) }
+
+    before do
+      create(:borrowing, :active, book:, user: first_user)
+    end
+
+    context 'when no copies remain' do
+      it 'is invalid' do
+        expect(borrowing).not_to(be_valid)
+        expect(borrowing.errors[:book]).to(include('has no available copies'))
+      end
+    end
+
+    context 'when copies remain' do
+      let(:total_copies) { 2 }
+
+      it 'remains valid' do
+        expect(borrowing).to(be_valid)
+      end
+    end
+  end
+
+  describe 'overdue borrowing prevention' do
+    let(:user) { create(:user, :member) }
+    let(:book1) { create(:book, total_copies: 5) }
+    let(:book2) { create(:book, total_copies: 5) }
+
+    context 'when user has no overdue borrowings' do
+      it 'allows borrowing a new book' do
+        borrowing = build(:borrowing, user:, book: book1)
+        expect(borrowing).to(be_valid)
+      end
+
+      it 'allows borrowing even with past non-overdue borrowings' do
+        create(:borrowing, :returned, user:, book: book1, due_on: 1.week.ago)
+
+        borrowing = build(:borrowing, user:, book: book2)
+        expect(borrowing).to(be_valid)
+      end
+
+      it 'allows borrowing with on-time active borrowings' do
+        create(:borrowing, :active, user:, book: book1, due_on: 1.week.from_now)
+
+        borrowing = build(:borrowing, user:, book: book2)
+        expect(borrowing).to(be_valid)
+      end
+    end
+
+    context 'when user has an active overdue borrowing' do
+      before do
+        create(:borrowing, :active, user:, book: book1, due_on: 1.week.ago)
+      end
+
+      it 'prevents borrowing a new book' do
+        borrowing = build(:borrowing, user:, book: book2)
+        expect(borrowing).not_to(be_valid)
+        expect(borrowing.errors[:base]).to(include(match(/Cannot borrow books while you have overdue borrowings/)))
+      end
+    end
+
+    context 'when user has returned an overdue book' do
+      before do
+        create(:borrowing, :returned, user:, book: book1, due_on: 1.week.ago, returned_at: Time.current)
+      end
+
+      it 'allows borrowing a new book' do
+        borrowing = build(:borrowing, user:, book: book2)
+        expect(borrowing).to(be_valid)
+      end
+    end
+
+    context 'when user has multiple active borrowings with one overdue' do
+      before do
+        create(:borrowing, :active, user:, book: book1, due_on: 1.week.ago)
+        # Create second borrowing without validation to simulate having multiple loans
+        borrowing2 = build(:borrowing, :active, user:, book: create(:book, total_copies: 5), due_on: 1.week.from_now)
+        borrowing2.save(validate: false)
+      end
+
+      it 'prevents borrowing due to the one overdue book' do
+        borrowing = build(:borrowing, user:, book: book2)
+        expect(borrowing).not_to(be_valid)
+      end
+    end
+  end
 end

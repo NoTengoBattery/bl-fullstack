@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Represents a user in the library system.
+# Can be either a member or librarian.
 class User < ApplicationRecord
   has_secure_password
 

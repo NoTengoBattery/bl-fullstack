@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Represents a book borrowing record.
+# Tracks active and returned borrowings with due dates.
 class Borrowing < ApplicationRecord
   # Enums
   enum :status, { active: 0, returned: 1 }, default: :active
@@ -12,6 +14,8 @@ class Borrowing < ApplicationRecord
   validates :due_on, presence: true
   validates :borrowed_at, presence: true
   validate :unique_active_borrowing, on: :create
+  validate :book_has_available_copies, on: :create
+  validate :user_has_no_overdue_borrowings, on: :create
 
   # Scopes
   scope :active, -> { where(status: :active, returned_at: nil) }
@@ -34,5 +38,19 @@ class Borrowing < ApplicationRecord
     return unless existing
 
     errors.add(:base, 'User already has an active borrowing for this book')
+  end
+
+  def book_has_available_copies
+    return unless book
+    return if book.available_copies.positive?
+
+    errors.add(:book, 'has no available copies')
+  end
+
+  def user_has_no_overdue_borrowings
+    return unless user
+    return if user.borrowings.overdue.none?
+
+    errors.add(:base, 'Cannot borrow books while you have overdue borrowings')
   end
 end

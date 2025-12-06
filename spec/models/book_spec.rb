@@ -11,6 +11,101 @@ RSpec.describe(Book) do
     it { is_expected.to(validate_presence_of(:total_copies)) }
     it { is_expected.to(validate_numericality_of(:total_copies).only_integer.is_greater_than_or_equal_to(0)) }
     it { is_expected.to(validate_uniqueness_of(:isbn).case_insensitive.allow_nil) }
+
+    describe 'ISBN format validation' do
+      it 'accepts valid ISBN-10' do
+        book.isbn = '0306406152'
+        expect(book).to(be_valid)
+      end
+
+      it 'accepts valid ISBN-10 with X check digit' do
+        book.isbn = '043942089X'
+        expect(book).to(be_valid)
+      end
+
+      it 'accepts valid ISBN-13' do
+        book.isbn = '9780306406157'
+        expect(book).to(be_valid)
+      end
+
+      it 'rejects invalid ISBN format' do
+        book.isbn = '123'
+        expect(book).not_to(be_valid)
+        expect(book.errors[:isbn]).to(include(match(/must be a valid ISBN/)))
+      end
+
+      it 'rejects ISBN with invalid characters' do
+        book.isbn = '03064061XX'
+        expect(book).not_to(be_valid)
+      end
+
+      it 'allows nil ISBN' do
+        book.isbn = nil
+        expect(book).to(be_valid)
+      end
+
+      it 'allows blank ISBN' do
+        book.isbn = ''
+        expect(book).to(be_valid)
+      end
+    end
+
+    describe 'total_copies cannot decrease below borrowed count' do
+      let(:book) { create(:book, total_copies: 5) }
+
+      context 'when decreasing copies below active borrowings' do
+        before do
+          3.times { create(:borrowing, :active, book:, user: create(:user, :member)) }
+        end
+
+        it 'rejects the update' do
+          book.total_copies = 2
+          expect(book).not_to(be_valid)
+          expect(book.errors[:total_copies]).to(include(match(/cannot be decreased below/)))
+        end
+
+        it 'allows keeping copies at current level' do
+          book.total_copies = 5
+          expect(book).to(be_valid)
+        end
+
+        it 'allows increasing copies' do
+          book.total_copies = 10
+          expect(book).to(be_valid)
+        end
+      end
+
+      context 'when no borrowings exist' do
+        it 'allows decreasing to zero' do
+          book.total_copies = 0
+          expect(book).to(be_valid)
+        end
+
+        it 'allows any decrease' do
+          book.total_copies = 2
+          expect(book).to(be_valid)
+        end
+      end
+
+      context 'when only returned borrowings exist' do
+        before do
+          2.times { create(:borrowing, :returned, book:, user: create(:user, :member)) }
+        end
+
+        it 'allows decreasing copies (returned books do not count)' do
+          book.total_copies = 1
+          expect(book).to(be_valid)
+        end
+      end
+
+      context 'when on initial creation' do
+        let(:new_book) { build(:book, total_copies: 10) }
+
+        it 'does not validate against borrowed count' do
+          expect(new_book).to(be_valid)
+        end
+      end
+    end
   end
 
   describe 'associations' do
@@ -18,7 +113,7 @@ RSpec.describe(Book) do
   end
 
   describe 'soft deletes' do
-    let(:book) { create(:book) }
+    let(:book) { create(:book, :kept) }
 
     it 'supports soft delete with discard' do
       expect(book).to(respond_to(:discard))
@@ -140,6 +235,57 @@ RSpec.describe(Book) do
 
       it 'returns the difference' do
         expect(book.available_copies).to(eq(2))
+      end
+    end
+  end
+
+  describe '#can_be_deleted?' do
+    let(:book) { create(:book) }
+
+    context 'when book has no borrowings' do
+      it 'returns true' do
+        expect(book.can_be_deleted?).to(be(true))
+      end
+    end
+
+    context 'when book has only active borrowings' do
+      before do
+        create(:borrowing, :active, book:, user: create(:user, :member))
+      end
+
+      it 'returns false' do
+        expect(book.can_be_deleted?).to(be(false))
+      end
+    end
+
+    context 'when book has multiple active borrowings' do
+      before do
+        2.times { create(:borrowing, :active, book:, user: create(:user, :member)) }
+      end
+
+      it 'returns false' do
+        expect(book.can_be_deleted?).to(be(false))
+      end
+    end
+
+    context 'when book has only returned borrowings' do
+      before do
+        create(:borrowing, :returned, book:, user: create(:user, :member))
+      end
+
+      it 'returns true' do
+        expect(book.can_be_deleted?).to(be(true))
+      end
+    end
+
+    context 'when book has both active and returned borrowings' do
+      before do
+        create(:borrowing, :active, book:, user: create(:user, :member))
+        create(:borrowing, :returned, book:, user: create(:user, :member))
+      end
+
+      it 'returns false (due to active borrowing)' do
+        expect(book.can_be_deleted?).to(be(false))
       end
     end
   end
