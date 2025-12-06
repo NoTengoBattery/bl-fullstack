@@ -14,7 +14,6 @@ const legacyConfig = {
     parserOptions: {
         ecmaFeatures: { jsx: true },
         ecmaVersion: 2022,
-        project: path.resolve(__dirname, './tsconfig.json'),
         sourceType: 'module',
         tsconfigRootDir: __dirname,
     },
@@ -38,7 +37,7 @@ const legacyConfig = {
     },
     overrides: [
         { files: ['**/*.js', '**/*.jsx'], rules: { '@typescript-eslint/no-unused-vars': 'off' } },
-        { files: ['**/*.ts', '**/*.tsx'], parserOptions: { project: path.resolve(__dirname, './tsconfig.json') } },
+        { files: ['**/*.ts', '**/*.tsx'], parserOptions: { projectService: true } },
     ],
 }
 
