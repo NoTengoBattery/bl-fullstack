@@ -4,6 +4,8 @@ A modern, Dockerized Library Management System built with Ruby on Rails 8 and Re
 
 Please, check the following files for more information about the specific challenge requirements and implementation details:
  - [User Story](./USER_STORY.md)
+ - [Gen AI Master Prompt](https://github.com/NoTengoBattery/bl-genai/blob/develop/GENAI_PROMTP.md) (External repository)
+ - [Gen AI Critical Quality Review](https://github.com/NoTengoBattery/bl-genai/blob/develop/GENAI_TASK_MANAGER.md) (External repository)
 
 ## System dependencies
 
