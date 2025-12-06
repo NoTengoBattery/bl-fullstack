@@ -1,8 +1,9 @@
-import type { SharedProps } from '@/types'
+import type { SharedProps } from '@/types';
 
 declare module '@inertiajs/core' {
-  export interface InertiaConfig {
-    sharedPageProps: SharedProps
-    errorValueType: string[]
-  }
+  type PageProps = SharedProps;
+}
+
+declare module '@inertiajs/react' {
+  export function usePage<T = SharedProps>(): { props: T & SharedProps };
 }
