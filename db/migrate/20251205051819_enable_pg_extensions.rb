@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Migration to enable required PostgreSQL extensions.
 class EnablePgExtensions < ActiveRecord::Migration[8.1]
   def change
     enable_extension('pgcrypto')

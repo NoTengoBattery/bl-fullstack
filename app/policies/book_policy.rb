@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Authorization policy for Book resources.
+# All users can view books, only librarians can modify.
 class BookPolicy < ApplicationPolicy
   # Everyone can read/search books
   def index? = true
@@ -15,6 +17,7 @@ class BookPolicy < ApplicationPolicy
 
   def destroy? = librarian?
 
+  # Scope for filtering books based on user role.
   class Scope < ApplicationPolicy::Scope
     def resolve
       if user&.librarian?

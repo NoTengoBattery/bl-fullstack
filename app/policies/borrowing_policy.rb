@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Authorization policy for Borrowing resources.
+# Members can view their own, librarians can view all.
 class BorrowingPolicy < ApplicationPolicy
   # Only logged in users can view borrowings list
   def index? = logged_in?
@@ -16,6 +18,7 @@ class BorrowingPolicy < ApplicationPolicy
   # No one can destroy borrowings (audit trail)
   def destroy? = false
 
+  # Scope for filtering borrowings based on user role and ownership.
   class Scope < ApplicationPolicy::Scope
     def resolve
       if user&.librarian?

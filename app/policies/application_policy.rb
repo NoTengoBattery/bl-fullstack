@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Base policy class for Pundit authorization.
+# Defines default authorization rules.
 class ApplicationPolicy
   attr_reader :user, :record
 
@@ -16,6 +18,7 @@ class ApplicationPolicy
   def edit? = update?
   def destroy? = false
 
+  # Scope class for filtering records based on user permissions.
   class Scope
     def initialize(user, scope)
       @user = user

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Migration to create the books table with search indexes.
 class CreateBooks < ActiveRecord::Migration[8.1]
   def change
     create_table(:books, id: :uuid) do |t|

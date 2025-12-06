@@ -7,6 +7,8 @@
 #
 # Thanks to NoTengoBattery for this implementation. The original version was grabbed from his Rails 6 template.
 
+# CacheKey module provides file-based cache key generation with automatic expiration.
+# Acts similarly to Rails ActionView cache but supports low-level caching.
 module CacheKey
   extend self
 

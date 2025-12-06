@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Migration to create the borrowings table with unique constraints.
 class CreateBorrowings < ActiveRecord::Migration[8.1]
   def change
     create_table(:borrowings, id: :uuid) do |t|

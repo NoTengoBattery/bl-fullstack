@@ -3,6 +3,8 @@
 require 'active_support/core_ext/object/blank'
 require 'concurrent-ruby'
 
+# Helper module for calculating pool sizes and configuration values.
+# Used for database, cache, and worker configuration.
 module BallastLaneProjectConfigHelper
   # Calculates the pool size for different services based on environment variables
 
