@@ -14,7 +14,8 @@ class Book < ApplicationRecord
   validates :total_copies, presence: true,
                            numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :isbn, uniqueness: { case_sensitive: false },
-                   format: { with: /\A(?:\d{9}X|\d{10}|\d{13})\z/, message: 'must be a valid ISBN-10 or ISBN-13' }, allow_blank: true
+                   format: { with: /\A(?:\d{9}X|\d{10}|\d{13})\z/, message: 'must be a valid ISBN-10 or ISBN-13' },
+                   allow_blank: true
   validate :total_copies_cannot_decrease_below_borrowed_count
 
   # Scopes
@@ -53,6 +54,10 @@ class Book < ApplicationRecord
     return unless total_copies < previous_total && total_copies < borrowed_count
 
     errors.add(:total_copies,
-               "cannot be decreased below the number of currently borrowed copies (#{borrowed_count} active borrowings)")
+               <<~ERROR
+                 cannot be decreased below the number of currently borrowed
+                 copies (#{borrowed_count} active borrowings)
+               ERROR
+              )
   end
 end

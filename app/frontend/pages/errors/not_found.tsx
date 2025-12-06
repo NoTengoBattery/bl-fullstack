@@ -1,5 +1,5 @@
-import { Head, Link } from '@inertiajs/react'
-import { Home, AlertTriangle } from 'lucide-react'
+import { Head, Link } from '@inertiajs/react';
+import { Home, AlertTriangle } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -39,5 +39,5 @@ export default function NotFound() {
         </div>
       </div>
     </>
-  )
+  );
 }

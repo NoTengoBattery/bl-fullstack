@@ -2,6 +2,9 @@
 
 A modern, Dockerized Library Management System built with Ruby on Rails 8 and React (via Inertia.js). This project adheres to Clean Architecture principles, utilizing Service Objects, Pundit for authorization, and Optimistic Locking for concurrency control.
 
+Please, check the following files for more information about the specific challenge requirements and implementation details:
+ - [User Story](./USER_STORY.md)
+
 ## System dependencies
 
 Any computer that can run Docker will work. VS Code is the preferred IDE.
