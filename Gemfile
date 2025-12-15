@@ -52,7 +52,7 @@ gem 'validate_url', '~> 1.0'
 gem 'zstd-ruby', '~> 2.0'
 
 # Gems and utilities for frontend
-gem 'inertia_rails', '~> 3.14'
+gem 'inertia_rails', '~> 3.15'
 gem 'vite_rails', '~> 3.0', '>= 3.0.19'
 
 ## Gems needed to generate the seeds
