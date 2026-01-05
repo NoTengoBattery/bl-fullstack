@@ -87,7 +87,7 @@ group :test do
   gem 'pundit-matchers', '~> 4.0'
   gem 'rspec-collection_matchers', '~> 1.2'
   gem 'shoulda-matchers', '~> 7.0'
-  gem 'super_diff', '~> 0.15'
+  gem 'super_diff', '~> 0.18'
 end
 
 group :development, :test do

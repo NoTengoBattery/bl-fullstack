@@ -416,7 +416,7 @@ GEM
       ostruct
     stackprof (0.2.27)
     stringio (3.1.9)
-    super_diff (0.17.0)
+    super_diff (0.18.0)
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
@@ -517,7 +517,7 @@ DEPENDENCIES
   ruby-lsp (~> 0.26)
   shoulda-matchers (~> 7.0)
   stackprof (~> 0.2)
-  super_diff (~> 0.15)
+  super_diff (~> 0.18)
   thruster
   tzinfo-data
   validate_url (~> 1.0)
