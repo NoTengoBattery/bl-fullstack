@@ -64,7 +64,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Install JS dependencies (pnpm)
         run: pnpm install --frozen-lockfile
