@@ -2,7 +2,7 @@
 services:
   postgresql:
     image: postgres:18
-    container_name: com.ballastlane.postgresql
+    container_name: com.fullstack-template.postgresql
     environment:
       - POSTGRES_PASSWORD=password
     healthcheck:
@@ -14,14 +14,14 @@ services:
         limits:
           memory: 1G
     networks:
-      - com.ballastlane.project
+      - com.fullstack-template.project
     volumes:
-      - com.ballastlane.postgresql:/var/lib/postgresql:rw
+      - com.fullstack-template.postgresql:/var/lib/postgresql:rw
 
   redis-kvdb:
     &redis
     image: redis:8
-    container_name: com.ballastlane.redis-kvdb
+    container_name: com.fullstack-template.redis-kvdb
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
@@ -31,21 +31,21 @@ services:
         limits:
           memory: 1G
     networks:
-      - com.ballastlane.project
+      - com.fullstack-template.project
     volumes:
-      - com.ballastlane.redis-kvdb:/var/lib/redis:rw
+      - com.fullstack-template.redis-kvdb:/var/lib/redis:rw
       - ./config/redis-kv.conf:/usr/local/etc/redis/redis.conf:ro
 
   redis-cache:
     <<: *redis
-    container_name: com.ballastlane.redis-cache
+    container_name: com.fullstack-template.redis-cache
     volumes:
-      - com.ballastlane.redis-cache:/var/lib/redis:rw
+      - com.fullstack-template.redis-cache:/var/lib/redis:rw
       - ./config/redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
 
   project-base:
     &project-base
-    container_name: com.ballastlane.project.base
+    container_name: com.fullstack-template.project.base
     build:
       context: .
       args:
@@ -78,17 +78,17 @@ services:
       - .env.${RAILS_ENV:-development}
       - .env.${RAILS_ENV:-development}.local
     networks:
-      - com.ballastlane.project
+      - com.fullstack-template.project
     tmpfs:
       - /tmp:mode=01777
     user: "${UID:-1000}:${GID:-1000}"
     userns_mode: host
     volumes:
-      - .:/project:z
+      - .:/project:zw
 
   project-rails-server:
     <<: *project-base
-    container_name: com.ballastlane.project.rails.server
+    container_name: com.fullstack-template.project.rails.server
     depends_on:
       project-vite-server: { condition: service_healthy }
     ports:
@@ -102,7 +102,7 @@ services:
 
   project-vite-server:
     <<: *project-base
-    container_name: com.ballastlane.project.vite.server
+    container_name: com.fullstack-template.project.vite.server
     command: [ "bin/vite", "dev" ]
     ports:
       - ${VITE_DEV_SERVER_PORT:-3036}:${VITE_DEV_SERVER_PORT:-3036}
@@ -115,13 +115,13 @@ services:
 
   project-rails-worker:
     <<: *project-base
-    container_name: com.ballastlane.project.rails.worker
+    container_name: com.fullstack-template.project.rails.worker
     command: [ "bin/sidekiq" ]
 
   project-test-base:
     &project-test-base
     <<: *project-base
-    container_name: com.ballastlane.project.test.base
+    container_name: com.fullstack-template.project.test.base
     build:
       context: .
       args:
@@ -142,7 +142,7 @@ services:
 
   project-test:
     <<: *project-test-base
-    container_name: com.ballastlane.project.test
+    container_name: com.fullstack-template.project.test
     environment:
       <<: *test-environment
       CI: "true"
@@ -150,14 +150,14 @@ services:
 
   project-test-local:
     <<: *project-test-base
-    container_name: com.ballastlane.project.test.local
+    container_name: com.fullstack-template.project.test.local
 
 networks:
-  com.ballastlane.project:
+  com.fullstack-template.project:
     enable_ipv6: false
 
 
 volumes:
-  com.ballastlane.postgresql:
-  com.ballastlane.redis-cache:
-  com.ballastlane.redis-kvdb:
+  com.fullstack-template.postgresql:
+  com.fullstack-template.redis-cache:
+  com.fullstack-template.redis-kvdb:

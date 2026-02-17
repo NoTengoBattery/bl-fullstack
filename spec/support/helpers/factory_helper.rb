@@ -32,7 +32,7 @@ module FactoryHelper
   end
 
   def interface_models(interface)
-    ApplicationRecord.descendants.select { |model| model.included_modules.include?(interface) }
+    ApplicationRecord.descendants.select { |model| model.include?(interface) }
   end
 
   private

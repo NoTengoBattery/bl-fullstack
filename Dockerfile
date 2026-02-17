@@ -12,7 +12,7 @@ ARG USER=rails
 
 # Build the image step by step to optimize build time and cache usage.
 # This part buils the base image with all *system* dependencies.
-FROM ruby:3.4 AS ballast-lane-system
+FROM ruby:3.4 AS fullstack-template-system
 ARG RAILS_ENV
 ENV RAILS_ENV=$RAILS_ENV
 WORKDIR /tmp
@@ -21,18 +21,18 @@ RUN apt-get update && apt-get install --no-install-recommends --auto-remove -y c
 RUN zsh -cel ./system.zsh
 
 # Build the required Ruby and NodeJS dependencies.
-FROM ballast-lane-system AS ballast-lane-node
+FROM fullstack-template-system AS fullstack-template-node
 WORKDIR /tmp
 COPY scripts/node.zsh .
 RUN zsh -cel ./node.zsh
 
-FROM ballast-lane-node AS ballast-lane-ruby
+FROM fullstack-template-node AS fullstack-template-ruby
 WORKDIR /tmp
 COPY scripts/ruby.zsh .
 RUN zsh -cel ./ruby.zsh
 
 # Build the new rootless user (with core configuration and dependencies)
-FROM ballast-lane-ruby AS ballast-lane-user
+FROM fullstack-template-ruby AS fullstack-template-user
 ARG GROUP
 ARG GROUP_ID
 ARG USER
@@ -45,7 +45,7 @@ COPY scripts/prepare-user.zsh .
 RUN zsh -cel ./prepare-user.zsh
 
 # Install gems and node modules
-FROM ballast-lane-user AS ballast-lane-dependencies
+FROM fullstack-template-user AS fullstack-template-dependencies
 RUN mkdir -p /project && chown -R $USER:$GROUP /project
 USER $USER:$GROUP
 WORKDIR /project
@@ -57,13 +57,13 @@ WORKDIR /tmp
 COPY scripts/system-cleanup.zsh .
 RUN zsh -cel ./system-cleanup.zsh
 
-FROM ballast-lane-dependencies AS ballast-lane-project
+FROM fullstack-template-dependencies AS fullstack-template-project
 USER $USER:$GROUP
 WORKDIR /project
 COPY --chown=$USER:$GROUP .git .git
 RUN git reset --hard
 
-FROM ballast-lane-project AS ballast-lane
+FROM fullstack-template-project AS fullstack-template
 USER $USER:$GROUP
 WORKDIR /project
 ENTRYPOINT ["scripts/entrypoint.rb"]

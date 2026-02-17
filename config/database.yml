@@ -2,7 +2,7 @@ _primary_database: &primary_database
   adapter: postgresql
   database: primary_database
   encoding: unicode
-  pool: <%= BallastLaneProjectConfigHelper.database_pool %>
+  pool: <%= ProjectConfigHelper.database_pool %>
   url: <%= ENV.fetch("DATABASE_URL") %>
   variables:
     lock_timeout: <%= ENV.fetch("DATABASE_LOCK_TIMEOUT", 3000) %>

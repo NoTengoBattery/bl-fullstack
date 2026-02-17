@@ -20,8 +20,8 @@ require 'action_view/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module BallastLaneProject
-  # Provides configuration and initialization for the Ballastlane Rails application,
+module FullstackTemplate
+  # Provides configuration and initialization for the Fullstack Template Rails application,
   # ensuring that frameworks, middleware, and environment-specific settings are
   # loaded and configured before the application boots.
   class Application < Rails::Application

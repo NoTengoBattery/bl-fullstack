@@ -1,12 +1,12 @@
-import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react';
+import { StrictMode, type ReactNode } from 'react';
+import { createRoot } from 'react-dom/client';
+import Layout from '@/components/Layout';
 
 void createInertiaApp({
   // Set default page title
   // see https://inertia-rails.dev/guide/title-and-meta
-  //
-  // title: title => title ? `${title} - App` : 'App',
+  title: (title) => (title ? `${title} - Fullstack Template` : 'Fullstack Template'),
 
   // Disable progress bar
   //
@@ -14,21 +14,20 @@ void createInertiaApp({
   // progress: false,
 
   resolve: (name) => {
-    const pages = import.meta.glob<{default: ResolvedComponent}>('../pages/**/*.tsx', {
+    const pages = import.meta.glob<{ default: ResolvedComponent }>('../pages/**/*.tsx', {
       eager: true,
-    })
-    const page = pages[`../pages/${name}.tsx`]
+    });
+    const page = pages[`../pages/${name}.tsx`];
     if (!page) {
-      console.error(`Missing Inertia page component: '${name}.tsx'`)
+      // eslint-disable-next-line no-console
+      console.error(`Missing Inertia page component: '${name}.tsx'`);
     }
 
-    // To use a default layout, import the Layout component
-    // and use the following line.
+    // Use the Layout component as default layout
     // see https://inertia-rails.dev/guide/pages#default-layouts
-    //
-    // page.default.layout ||= (page: ReactNode) => (<Layout>{page}</Layout>)
+    page.default.layout ||= (pageContent: ReactNode) => <Layout>{pageContent}</Layout>;
 
-    return page
+    return page;
   },
 
   setup({ el, App, props }) {
@@ -36,7 +35,7 @@ void createInertiaApp({
       <StrictMode>
         <App {...props} />
       </StrictMode>
-    )
+    );
   },
 
   defaults: {
@@ -53,13 +52,14 @@ void createInertiaApp({
   // This ensures this entrypoint is only loaded on Inertia pages
   // by checking for the presence of the root element (#app by default).
   // Feel free to remove this `catch` if you don't need it.
-  if (document.getElementById("app")) {
-    throw error
+  if (document.getElementById('app')) {
+    throw error;
   } else {
+    // eslint-disable-next-line no-console
     console.error(
-      "Missing root element.\n\n" +
-      "If you see this error, it probably means you loaded Inertia.js on non-Inertia pages.\n" +
-      'Consider moving <%= vite_typescript_tag "inertia.tsx" %> to the Inertia-specific layout instead.',
-    )
+      'Missing root element.\n\n' +
+        'If you see this error, it probably means you loaded Inertia.js on non-Inertia pages.\n' +
+        'Consider moving <%= vite_typescript_tag "inertia.tsx" %> to the Inertia-specific layout instead.'
+    );
   }
-})
+});

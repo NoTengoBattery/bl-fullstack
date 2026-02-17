@@ -27,16 +27,16 @@
 # Any libraries that use a connection pool or another resource pool should
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
-max_threads_count = BallastLaneProjectConfigHelper.max_threads
+max_threads_count = ProjectConfigHelper.max_threads
 min_threads_count = ENV.fetch('RAILS_MIN_THREADS', 1)
 threads min_threads_count, max_threads_count
 
-worker_check_interval BallastLaneProjectConfigHelper.worker_check_interval
-worker_timeout BallastLaneProjectConfigHelper.worker_timeout
+worker_check_interval ProjectConfigHelper.worker_check_interval
+worker_timeout ProjectConfigHelper.worker_timeout
 
 # Specifies that the worker count should equal the number of processors in production.
 if ENV['RAILS_ENV'].in?(%w[production staging])
-  worker_count = BallastLaneProjectConfigHelper.worker_count
+  worker_count = ProjectConfigHelper.worker_count
   workers worker_count if worker_count > 1
 end
 

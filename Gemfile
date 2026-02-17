@@ -9,7 +9,7 @@ gem 'rails', '~> 8.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '~> 7.1'
+gem 'puma', '~> 7.2'
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt', '~> 3.1'
@@ -33,13 +33,15 @@ gem 'image_processing', '~> 1.2'
 gem 'active_storage_validations', '~> 3.0'
 gem 'amazing_print', '~> 2.0'
 gem 'blake3-rb', '~> 1.5'
+gem 'blueprinter', '~> 1.1'
 gem 'discard', '~> 1.4'
 gem 'dotenv-rails', '~> 3.2'
 gem 'hashdiff', '~> 1.2'
 gem 'hiredis-client', '~> 0.26'
-gem 'irb', '~> 1.15'
+gem 'irb', '~> 1.17'
 gem 'jsonb_accessor', '~> 1.4'
 gem 'jsonpath', '~> 1.1'
+gem 'kaminari', '~> 1.2'
 gem 'lru_redux', '~> 1.1'
 gem 'oj', '~> 3.16'
 gem 'pg_search', '~> 2.3'
@@ -50,12 +52,12 @@ gem 'validate_url', '~> 1.0'
 gem 'zstd-ruby', '~> 2.0'
 
 # Gems and utilities for frontend
-gem 'inertia_rails', '~> 3.14'
+gem 'inertia_rails', '~> 3.17'
 gem 'vite_rails', '~> 3.0', '>= 3.0.19'
 
 ## Gems needed to generate the seeds
 gem 'factory_bot_rails', '~> 6.5', require: false
-gem 'faker', '~> 3.5', require: false
+gem 'faker', '~> 3.6', require: false
 
 group :development do
   # Profiling, auditing, and performance tools
@@ -74,7 +76,7 @@ group :development do
   gem 'rubocop-performance', '~> 1.25', require: false
   gem 'rubocop-rails', '~> 2.33', require: false
   gem 'rubocop-rake', '~> 0.7', require: false
-  gem 'rubocop-rspec', '~> 3.8', require: false
+  gem 'rubocop-rspec', '~> 3.9', require: false
   gem 'rubocop-rspec_rails', '~> 2.32', require: false
   gem 'rubocop-thread_safety', '~> 0.7', require: false
   ## Ruby LSP

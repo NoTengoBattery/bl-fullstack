@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Module for generating common name variations from constants.
+# Provides snake_case, camelCase, and other naming conventions.
 module ConstantCommonNames
   module_function
 

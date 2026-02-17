@@ -4,8 +4,11 @@ SEEDER_RETRY_TIMES = 3
 SEEDER_DEFAULT_RECORDS = 10
 
 Rails.logger.level = :debug
-def seed_model(model:, factory: '', factory_opts: [], factory_kw: {},
-               retries: SEEDER_RETRY_TIMES, times: SEEDER_DEFAULT_RECORDS)
+
+def seed_model(
+  model:, factory: '', factory_opts: [], factory_kw: {},
+  retries: SEEDER_RETRY_TIMES, times: SEEDER_DEFAULT_RECORDS
+)
   names = constant_common_names(model)
   snake, model = names.to_h.values_at(:snake, :const)
   failure = retries
@@ -17,7 +20,7 @@ def seed_model(model:, factory: '', factory_opts: [], factory_kw: {},
 
     new_model.save!
     Rails.logger.info { "+>> Created new #{model} id:#{new_model.id} [#{itr + 1}]" }
-    puts("Created #{model}: #{itr} out of #{iterations}") unless Rails.env.test? # rubocop:disable Rails/Output
+    puts("Created #{model}: #{itr + 1} out of #{iterations}") unless Rails.env.test? # rubocop:disable Rails/Output
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
     Rails.logger.warn { "~>> Failed to store new #{model} [#{itr + 1}], retry: #{failure}" }
     Rails.logger.ap(new_model, level: :warn, sort_keys: true, color: nil)

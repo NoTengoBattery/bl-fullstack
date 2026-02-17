@@ -2,10 +2,9 @@
 
 require_relative '../seed_helper'
 
-seed_model(model: 'User', times: 20)
-
-# Guarantee at least one librarian user
-if User.librarian.none?
-  User.member.random_sample.delete
-  seed_model(model: 'User', factory_kw: { role: :librarian }, times: 20)
+seed_model(model: 'User', times: 1) do |user|
+  user.email_address = 'demo@example.com'
+  user.password = user.password_confirmation = 'password'
 end
+
+seed_model(model: 'User', times: 10)

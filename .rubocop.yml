@@ -67,3 +67,26 @@ Style/SuperWithArgsParentheses:
 Style/TernaryParentheses:
   Enabled: true
   EnforcedStyle: require_parentheses_when_complex
+
+# RSpec cops
+RSpec/MultipleExpectations:
+  # Allow up to 3 expectations in an example
+  Max: 3
+
+# RSpec example length
+RSpec/ExampleLength:
+  # Max number of lines in an example
+  Max: 10
+
+# RSpec nested groups
+RSpec/NestedGroups:
+  # Maximum nesting level for example groups (`describe`, `context`) in specs
+  Max: 4
+
+# Rails I18n - disabled for simple projects
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+# RSpec cops
+RSpec/MultipleMemoizedHelpers:
+  Max: 6
